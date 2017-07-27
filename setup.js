@@ -5,4 +5,4 @@ var canvasHeight = 350;
 var score = 0;
 var snekGirth = 10;
 var snek;
-var apples
+var food;

@@ -24,35 +24,42 @@ var animate = (function () {
     }
 
     var drawSnake = function() {
-        var snekLength = 4;
+        var snekStartingLength = 4;
         snek = [];
-        for (var i = snekLength; i>=0; i--) {
+        for (var i = snekStartingLength; i>=0; i--) {
             snek.push({x:i, y:0});
         }  
     }
 
-    var createFood = function() {
-          food = {
-            //Generate random numbers.
+    var generateFood = function() {
+        food = {
+            //food's coordinates are randomly generated
             x: Math.floor((Math.random() * 30) + 1),
             y: Math.floor((Math.random() * 30) + 1)
         }
-        
-        //Look at the position of the snake's body.
-        for (var i=0; i>snake.length; i++) {
+        //make sure food doesn't appear on top of snakes body
+        for (var i=0; i>snek.length; i++) {
+
             var snekX = snek[i].x;
             var snekY = snek[i].y;
             
              if (food.x === snekX || 
                 food.y === snekY || 
                 food.y === snekY && 
-                food.x === snekX) {
-
+                food.x === snekX) 
+             {
                 food.x = Math.floor((Math.random() * 30) + 1);
                 food.y = Math.floor((Math.random() * 30) + 1);
-
             }
         }
+    }
+
+    var detectCollision = function(x, y, array) {
+        for(var i = 0; i < array.length; i++) {
+            if(array[i].x === x && array[i].y === y)
+            return true;
+        } 
+        return false;
     }
 
 }());

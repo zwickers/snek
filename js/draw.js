@@ -23,7 +23,7 @@ var animate = (function () {
         ctx.fillText(scoreText, 145, canvasHeight-5);
     }
 
-    var drawsnek = function() {
+    var drawSnek = function() {
         var snekStartingLength = 4;
         snek = [];
         for (var i = snekStartingLength; i>=0; i--) {
@@ -81,13 +81,13 @@ var animate = (function () {
         Use a variable ('direction') to control the movement.
         To move the snek, pop out the last element of the array and shift it on the top as first element.
         */
-        if (direction == 'right') {
+        if (direction == 'R') {
             snekX++;
-        } else if (direction == 'left') {
+        } else if (direction == 'L') {
             snekX--;
-        } else if (direction == 'up') {
+        } else if (direction == 'U') {
             snekY--;
-        } else if (direction == 'down') {
+        } else if (direction == 'D') {
             snekY++;
         }
 
@@ -135,13 +135,22 @@ var animate = (function () {
             bodysnek(snek[i].x, snek[i].y);
         }
 
-        //Create food using the _pizza_ function.
+       
         apple(food.x, food.y);
 
         //Put the score text.
         scoreText();
-}
+    }
 
+var init = function () {
+      direction = 'R';
+      drawSnek();
+      createFood();
+      gameloop = setInterval(gameLoop, 80);
+  }
+  return {
+      init: init
+  };
 
 
 }());

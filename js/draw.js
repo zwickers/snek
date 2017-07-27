@@ -23,7 +23,7 @@ var animate = (function () {
         ctx.fillText(scoreText, 145, canvasHeight-5);
     }
 
-    var drawSnake = function() {
+    var drawsnek = function() {
         var snekStartingLength = 4;
         snek = [];
         for (var i = snekStartingLength; i>=0; i--) {
@@ -37,7 +37,7 @@ var animate = (function () {
             x: Math.floor((Math.random() * 30) + 1),
             y: Math.floor((Math.random() * 30) + 1)
         }
-        //make sure food doesn't appear on top of snakes body
+        //make sure food doesn't appear on top of sneks body
         for (var i=0; i>snek.length; i++) {
 
             var snekX = snek[i].x;
@@ -61,5 +61,87 @@ var animate = (function () {
         } 
         return false;
     }
+
+    var gameLoop = function () {
+        //the background
+        ctx.fillStyle = '#111111';
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        //border
+        ctx.strokeStyle = '#2ECC40';
+        ctx.strokeRect(0, 0, canvasWidth, canvasHeight);
+
+        //Disable the button _start_ while you're playing.
+        btn.setAttribute('disabled', true);
+
+        var snekX = snek[0].x;
+        var snekY = snek[0].y;
+
+        /*
+        Make the snek move.
+        Use a variable ('direction') to control the movement.
+        To move the snek, pop out the last element of the array and shift it on the top as first element.
+        */
+        if (direction == 'right') {
+            snekX++;
+        } else if (direction == 'left') {
+            snekX--;
+        } else if (direction == 'up') {
+            snekY--;
+        } else if (direction == 'down') {
+            snekY++;
+        }
+
+        /*
+        If the snek touches the canvas path or itself, it will die!
+        Therefore if x or y of an element of the snek, don't fit inside the canvas, the game will be stopped.
+        If the check_collision is true, it means the the snek has crashed on its body itself, then the game will be stopped again. 
+        */
+        if (snekX == -1 || snekX == canvasWidth / snekSize || snekY == -1 || snekY == canvasHeight / snekSize || detectCollision(snekX, snekY, snek)) {
+            //Stop the game.
+
+            //Make the start button enabled again.
+            btn.removeAttribute('disabled', true);
+
+            //Clean up the canvas.
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            gameloop = clearInterval(gameloop);
+            return;
+        }
+
+        //If the snek eats food it becomes longer and this means that, in this case, you shouldn't pop out the last element of the array.
+        if (snekX == food.x && snekY == food.y) {
+            //Create a new square instead of moving the tail.
+            var tail = {
+                x: snekX,
+                y: snekY
+            };
+            score++;
+
+            //Create new food.
+            generateFood();
+        } else {
+
+            //Pop out the last cell.
+            var tail = snek.pop();
+            tail.x = snekX;
+            tail.y = snekY;
+        }
+
+        //Puts the tail as the first cell.
+        snek.unshift(tail);
+
+        //For each element of the array create a square using the bodysnek function we created before.
+        for (var i = 0; i < snek.length; i++) {
+            bodysnek(snek[i].x, snek[i].y);
+        }
+
+        //Create food using the _pizza_ function.
+        apple(food.x, food.y);
+
+        //Put the score text.
+        scoreText();
+}
+
+
 
 }());

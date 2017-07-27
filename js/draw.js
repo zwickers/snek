@@ -1,4 +1,4 @@
-var animate = (function () { 
+var main = (function () { 
     
     var snekBody = function(x, y) {
         // This is the single square
@@ -96,7 +96,7 @@ var animate = (function () {
         Therefore if x or y of an element of the snek, don't fit inside the canvas, the game will be stopped.
         If the check_collision is true, it means the the snek has crashed on its body itself, then the game will be stopped again. 
         */
-        if (snekX == -1 || snekX == canvasWidth / snekSize || snekY == -1 || snekY == canvasHeight / snekSize || detectCollision(snekX, snekY, snek)) {
+        if (snekX == -1 || snekX == canvasWidth / snekGirth || snekY == -1 || snekY == canvasHeight / snekGirth || detectCollision(snekX, snekY, snek)) {
             //Stop the game.
 
             //Make the start button enabled again.
@@ -130,9 +130,9 @@ var animate = (function () {
         //Puts the tail as the first cell.
         snek.unshift(tail);
 
-        //For each element of the array create a square using the bodysnek function we created before.
+        //For each element of the array create a square using the snekBody function we created before.
         for (var i = 0; i < snek.length; i++) {
-            bodysnek(snek[i].x, snek[i].y);
+            snekBody(snek[i].x, snek[i].y);
         }
 
        
@@ -145,7 +145,7 @@ var animate = (function () {
 var init = function () {
       direction = 'R';
       drawSnek();
-      createFood();
+      generateFood();
       gameloop = setInterval(gameLoop, 80);
   }
   return {

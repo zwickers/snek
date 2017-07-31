@@ -18,9 +18,10 @@ var main = (function () {
     }
 
     var scoreText = function() {
-        var scoreText = "Score: " + score;
-        ctx.fillStyle = 'blue';
-        ctx.fillText(scoreText, 145, canvasHeight-5);
+
+        var scoreText = "Score: <b>" + score+'</b>';   
+        $('#scoreBoard').html(scoreText);
+
     }
 
     var drawSnek = function() {
@@ -35,7 +36,7 @@ var main = (function () {
         food = {
             //food's coordinates are randomly generated
             x: Math.floor((Math.random() * 30) + 1),
-            y: Math.floor((Math.random() * 30) + 1)
+            y: Math.floor((Math.random() * 20) + 1)
         }
         //make sure food doesn't appear on top of sneks body
         for (var i=0; i>snek.length; i++) {
@@ -48,8 +49,8 @@ var main = (function () {
                 food.y === snekY && 
                 food.x === snekX) 
              {
-                food.x = Math.floor((Math.random() * 30) + 1);
-                food.y = Math.floor((Math.random() * 30) + 1);
+                food.x = Math.floor((Math.random() * 20) + 1);
+                food.y = Math.floor((Math.random() * 20) + 1);
             }
         }
     }
